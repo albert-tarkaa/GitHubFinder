@@ -9,8 +9,12 @@ class Search extends Component {
 
   onSubmitHandler = (e) => {
     e.preventDefault();
-    this.props.SearchUsers(e.target.value);
-    this.setState({ text: '' });
+    if (this.state.text === '') {
+      this.props.Alert('Please enter a search value', 'light');
+    } else {
+      this.props.SearchUsers(this.state.text);
+      this.setState({ text: '' });
+    }
   };
 
   render() {
@@ -29,6 +33,16 @@ class Search extends Component {
             className='btn btn-dark btn-block'
           />
         </form>
+        {this.props.loading ? (
+          ''
+        ) : (
+          <button
+            className='btn btn-light btn-block'
+            onClick={this.props.clearUsers}
+          >
+            Clear
+          </button>
+        )}
       </div>
     );
   }
