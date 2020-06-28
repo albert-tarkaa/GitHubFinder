@@ -1,51 +1,44 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-class Search extends Component {
-  state = { text: '' };
+const Search = ({ Alert, SearchUsers, loading, clearUsers }) => {
+  const [Text, SetText] = useState('');
 
-  onChangeHandler = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  const onChangeHandler = (e) => SetText(e.target.value);
 
-  onSubmitHandler = (e) => {
+  const onSubmitHandler = (e) => {
     e.preventDefault();
-    if (this.state.text === '') {
-      this.props.Alert('Please enter a search value', 'light');
+    if (Text === '') {
+      Alert('Please enter a search value', 'light');
     } else {
-      this.props.SearchUsers(this.state.text);
-      this.setState({ text: '' });
+      SearchUsers(Text);
+      SetText('');
     }
   };
 
-  render() {
-    return (
-      <div>
-        <form
-          onSubmit={this.onSubmitHandler}
-          className='form'
-          value={this.state.text}
-          onChange={this.onChangeHandler}
-        >
-          <input type='text' name='text' placeholder='Search Users...' />
-          <input
-            type='submit'
-            value='Search'
-            className='btn btn-dark btn-block'
-          />
-        </form>
-        {this.props.loading ? (
-          ''
-        ) : (
-          <button
-            className='btn btn-light btn-block'
-            onClick={this.props.clearUsers}
-          >
-            Clear
-          </button>
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <form
+        onSubmit={onSubmitHandler}
+        className='form'
+        value={Text}
+        onChange={onChangeHandler}
+      >
+        <input type='text' name='text' placeholder='Search Users...' />
+        <input
+          type='submit'
+          value='Search'
+          className='btn btn-dark btn-block'
+        />
+      </form>
+      {loading ? (
+        ''
+      ) : (
+        <button className='btn btn-light btn-block' onClick={clearUsers}>
+          Clear
+        </button>
+      )}
+    </div>
+  );
+};
 
 export default Search;
