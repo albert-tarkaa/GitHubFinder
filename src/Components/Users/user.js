@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import Repos from '../Repos/Repos';
 
 class User extends Component {
   componentDidMount() {
     this.props.getUser(this.props.match.params.login);
+    this.props.getUserRepo(this.props.match.params.login);
   }
   render() {
     const {
@@ -101,6 +103,7 @@ class User extends Component {
           </div>
           <div className='badge badge-dark'>Public Gists: {public_gists}</div>
         </div>
+        <Repos repos={this.props.repos} />
       </Fragment>
     );
   }
