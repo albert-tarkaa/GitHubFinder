@@ -1,112 +1,109 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Repos from '../Repos/Repos';
 
-class User extends Component {
-  componentDidMount() {
-    this.props.getUser(this.props.match.params.login);
-    this.props.getUserRepo(this.props.match.params.login);
-  }
-  render() {
-    const {
-      login,
-      avatar_url,
-      name,
-      location,
-      bio,
-      html_url,
-      company,
-      followers,
-      following,
-      blog,
-      public_repos,
-      public_gists,
-      hireable,
-    } = this.props.User;
-    return (
-      <Fragment>
-        <Link to='/' className='btn btn-light'>
-          Back to Search
-        </Link>
-        {this.props.loading ? 'Loading...' : ''}
-        Hireable:{' '}
-        {hireable ? (
-          <i className='fas fa-check text-success' />
-        ) : (
-          <i className='fas fa-times-circle text-danger' />
-        )}
-        <div className='card grid-2'>
-          <div className='all-center'>
-            <img
-              src={avatar_url}
-              alt=''
-              className='round-img'
-              style={{ width: '150px' }}
-            />
-            <h1>{name}</h1>
-            <p>Location:{location}</p>
-          </div>
+const User = ({ getUserRepo, getUser, User, match, repos, loading }) => {
+  useEffect(() => {
+    getUser(match.params.login);
+    getUserRepo(match.params.login);
+  });
 
-          <div>
-            <Fragment>
-              {bio ? (
+  const {
+    login,
+    avatar_url,
+    name,
+    location,
+    bio,
+    html_url,
+    company,
+    followers,
+    following,
+    blog,
+    public_repos,
+    public_gists,
+    hireable,
+  } = User;
+  return (
+    <Fragment>
+      <Link to='/' className='btn btn-light'>
+        Back to Search
+      </Link>
+      {loading ? 'Loading...' : ''}
+      Hireable:{' '}
+      {hireable ? (
+        <i className='fas fa-check text-success' />
+      ) : (
+        <i className='fas fa-times-circle text-danger' />
+      )}
+      <div className='card grid-2'>
+        <div className='all-center'>
+          <img
+            src={avatar_url}
+            alt={name}
+            className='round-img'
+            style={{ width: '150px' }}
+          />
+          <h1>{name}</h1>
+          <p>Location:{location}</p>
+        </div>
+
+        <div>
+          <Fragment>
+            {bio ? (
+              <Fragment>
+                <h3>Bio</h3>
+                <p>{bio}</p>
+              </Fragment>
+            ) : (
+              ''
+            )}
+          </Fragment>
+          <a href={html_url} className='btn btn-dark my-1'>
+            Visit GitHub Profile
+          </a>
+          <ul>
+            <li>
+              {login ? (
                 <Fragment>
-                  <h3>Bio</h3>
-                  <p>{bio}</p>
+                  <strong>Username: </strong>
+                  {login}
                 </Fragment>
               ) : (
                 ''
               )}
-            </Fragment>
-            <a href={html_url} className='btn btn-dark my-1'>
-              Visit GitHub Profile
-            </a>
-            <ul>
-              <li>
-                {login ? (
-                  <Fragment>
-                    <strong>Username: </strong>
-                    {login}
-                  </Fragment>
-                ) : (
-                  ''
-                )}
-              </li>
-              <li>
-                {company ? (
-                  <Fragment>
-                    <strong>Company: </strong>
-                    {company}
-                  </Fragment>
-                ) : (
-                  ''
-                )}
-              </li>
-              <li>
-                {blog ? (
-                  <Fragment>
-                    <strong>Website: </strong>
-                    {blog}
-                  </Fragment>
-                ) : (
-                  ''
-                )}
-              </li>
-            </ul>
-          </div>
+            </li>
+            <li>
+              {company ? (
+                <Fragment>
+                  <strong>Company: </strong>
+                  {company}
+                </Fragment>
+              ) : (
+                ''
+              )}
+            </li>
+            <li>
+              {blog ? (
+                <Fragment>
+                  <strong>Website: </strong>
+                  {blog}
+                </Fragment>
+              ) : (
+                ''
+              )}
+            </li>
+          </ul>
         </div>
-        <div className='card text-center'>
-          <div className='badge badge-primary'>Followers: {followers}</div>
-          <div className='badge badge-success'>Following: {following}</div>
-          <div className='badge badge-default'>
-            Public Repos: {public_repos}
-          </div>
-          <div className='badge badge-dark'>Public Gists: {public_gists}</div>
-        </div>
-        <Repos repos={this.props.repos} />
-      </Fragment>
-    );
-  }
-}
+      </div>
+      <div className='card text-center'>
+        <div className='badge badge-primary'>Followers: {followers}</div>
+        <div className='badge badge-success'>Following: {following}</div>
+        <div className='badge badge-default'>Public Repos: {public_repos}</div>
+        <div className='badge badge-dark'>Public Gists: {public_gists}</div>
+      </div>
+      <Repos repos={repos} />
+    </Fragment>
+  );
+};
 
 export default User;
