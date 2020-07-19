@@ -9,7 +9,7 @@ const Users = () => {
   return (
     <div style={userStyle}>
       {loading
-        ? 'Loading...'
+        ? ''
         : users.map((user) => <UserItem key={user.id} user={user} />)}
     </div>
   );
