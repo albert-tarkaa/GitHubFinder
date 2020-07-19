@@ -6,7 +6,10 @@ class Navbar extends Component {
     return (
       <div className='navbar bg-primary'>
         <h3>
-          <i className='fab fa-github' /> GitHub Finder
+          <Link to='/'>
+            {' '}
+            <i className='fab fa-github' /> GitHub Finder
+          </Link>
         </h3>
         <ul>
           <li>
