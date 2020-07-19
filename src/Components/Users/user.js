@@ -1,12 +1,16 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Repos from '../Repos/Repos';
+import GithubContext from '../../Context/Github/GithubContext';
 
-const User = ({ getUserRepo, getUser, User, match, repos, loading }) => {
+const User = ({ match }) => {
+  const githubContext = useContext(GithubContext);
+  const { user, loading, getUser, getUserRepo, repos } = githubContext;
+
   useEffect(() => {
     getUser(match.params.login);
     getUserRepo(match.params.login);
-  });
+  }, []);
 
   const {
     login,
@@ -22,7 +26,7 @@ const User = ({ getUserRepo, getUser, User, match, repos, loading }) => {
     public_repos,
     public_gists,
     hireable,
-  } = User;
+  } = user;
   return (
     <Fragment>
       <Link to='/' className='btn btn-light'>
